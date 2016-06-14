@@ -1,0 +1,70 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  // Declaring a second time.
+  def withJack = hasProperty('withJack')
+
+  dependencies {
+    if (withJack) {
+      classpath 'com.android.tools.build:gradle:2.2.0-alpha3'
+    } else {
+      classpath 'com.android.tools.build:gradle:2.1.2'
+      classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+      classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
+    }
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.2'
+  }
+}
+
+repositories {
+  jcenter()
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+dexcount {
+  format = "list"
+  includeClasses = true
+  includeTotalMethodCount = true
+  verbose = false
+  maxTreeDepth = Integer.MAX_VALUE
+}
+
+def withJack = hasProperty('withJack')
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion withJack ? "24rc4" : "23.0.3"
+
+  defaultConfig {
+    applicationId "com.github.serjltt.lambdaporn"
+
+    minSdkVersion 14
+    targetSdkVersion 23
+
+    versionCode 1
+    versionName "1.0"
+
+    resValue 'string', 'app_name', 'Lambdaporn (Retrolambda)'
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+if (withJack) {
+  apply from: './jack.gradle'
+} else {
+  apply from: './retrolambda.gradle'
+}

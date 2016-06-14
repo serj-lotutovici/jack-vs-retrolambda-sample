@@ -1,0 +1,9 @@
+android {
+  defaultConfig {
+    resValue 'string', 'app_name', 'Lambdaporn (Jack)'
+
+    jackOptions {
+      enabled true
+    }
+  }
+}

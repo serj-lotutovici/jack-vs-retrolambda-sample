@@ -1,0 +1,18 @@
+android {
+  defaultConfig {
+    resValue 'string', 'app_name', 'Lambdaporn (Retrolambda)'
+  }
+}
+
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+  jvmArgs '-noverify'
+  javaVersion JavaVersion.VERSION_1_6
+  defaultMethods false
+  incremental true
+}
+
+dependencies {
+  retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
+}
